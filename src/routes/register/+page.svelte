@@ -2,38 +2,53 @@
   import { authClient } from "$lib/auth-client";
   import { goto } from "$app/navigation";
 
+  let name = "";
   let email = "";
   let password = "";
+  let confirmPassword = "";
   let loading = false;
   let error: string | null = null;
 
-  async function login() {
-    loading = true;
+  async function register() {
     error = null;
 
-    const { data, error: err } = await authClient.signIn.email({
+    if (password !== confirmPassword) {
+      error = "Passwords do not match";
+      return;
+    }
+
+    loading = true;
+
+    const { data, error: err } = await authClient.signUp.email({
       email,
-      password
+      password,
+      name
     });
 
     loading = false;
 
     if (err) {
-      error = err.message ?? "Login failed";
+      error = err.message ?? "Registration failed";
       return;
     }
 
-    // success
     goto("/buyer");
   }
 </script>
 
-<form on:submit|preventDefault={login} class="login-form">
-  <h1>Login</h1>
+<form on:submit|preventDefault={register} class="register-form">
+  <h1>Create Account</h1>
 
   {#if error}
     <p class="error">{error}</p>
   {/if}
+
+  <input
+    type="text"
+    placeholder="Full name"
+    bind:value={name}
+    required
+  />
 
   <input
     type="email"
@@ -49,14 +64,21 @@
     required
   />
 
+  <input
+    type="password"
+    placeholder="Confirm password"
+    bind:value={confirmPassword}
+    required
+  />
+
   <button disabled={loading}>
-    {loading ? "Signing in..." : "Sign In"}
+    {loading ? "Creating account..." : "Sign Up"}
   </button>
 </form>
 
 <style>
-  .login-form {
-    max-width: 400px;
+  .register-form {
+    max-width: 420px;
     margin: 4rem auto;
     display: flex;
     flex-direction: column;

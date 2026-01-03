@@ -4,7 +4,7 @@
   };
 
   const goBuyer = () => {
-    window.location.href = '/buyer';
+    window.location.href = '/login/buyer';
   };
 </script>
 
