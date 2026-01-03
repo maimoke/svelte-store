@@ -1,6 +1,6 @@
 <script>
   const goAdmin = () => {
-    window.location.href = '/admin';
+    window.location.href = '/login/admin';
   };
 
   const goBuyer = () => {

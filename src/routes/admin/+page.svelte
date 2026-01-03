@@ -2,16 +2,32 @@
   import { collection, getDocs } from 'firebase/firestore';
   import { db } from '../../firebase';
   import { onMount } from 'svelte';
+  import { authClient } from '$lib/auth-client';
 
   let orders = [];
   let totalOrders = 0;
   let completedOrders = 0;
   let pendingOrders = 0;
+  let userName = 'Guest';
+  let email = 'GuestEmail'
+  let role = 'user'
 
   onMount(async () => {
     const ref = collection(db, 'order');
     const snapshot = await getDocs(ref);
-
+    const { data: session } = await authClient.getSession()
+        if (session?.user) {
+      userName = session.user.name;
+      email = session.user.email
+      role = session.user.role
+    }else{
+      alert("Please Login again")
+      window.location.href = '/';
+    }
+    if (role !== 'admin'){
+      alert("This user do not have permission as admin")
+      window.location.href = '/';
+    }
     orders = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data()
@@ -21,12 +37,37 @@
     completedOrders = orders.filter(o => o.status === 'completed').length;
     pendingOrders = orders.filter(o => o.status !== 'completed').length;
   });
+      const handleLogout = async () => {
+      await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = '/';
+        },
+      },
+    });
+  }
+  
 </script>
 
 <div class="min-h-screen bg-gray-100 p-6">
   <!-- Header -->
+  <h1 class="text-3xl font-bold">Hello {userName}</h1>
+  <button
+  on:click={handleLogout}
+  class="bg-red-600 hover:bg-opacity-80 text-white rounded-lg px-4 py-2 duration-200"
+  >Log out</button
+  >
+  <hr>
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">Order Dashboard</h1>
+    <h1 class="text-3xl font-bold">Admin Order Dashboard</h1>
+
+    <a
+      href="admin/buyer"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition"
+    >
+      User Dashboard
+    </a>
+
     <a
       href="admin/create"
       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition"

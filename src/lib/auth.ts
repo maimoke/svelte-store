@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
+import { admin } from "better-auth/plugins"
 export const auth = betterAuth({
     database: new Pool({
         // connection options
@@ -25,5 +26,5 @@ export const auth = betterAuth({
             }
         }
     },
-    plugins: [sveltekitCookies(getRequestEvent)], // make sure this is the last plugin in the array 
+    plugins: [admin(),sveltekitCookies(getRequestEvent)],
 })

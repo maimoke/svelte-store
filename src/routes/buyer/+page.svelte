@@ -17,6 +17,9 @@
         if (session?.user) {
       userName = session.user.name;
       email = session.user.email
+    }else{
+      alert("Please Login again")
+      window.location.href = '/';
     }
     const ordersRef = collection(db, 'order');
     const q = query(ordersRef, where('email', '==', email));
@@ -36,14 +39,28 @@
     
     
   });
+    const handleLogout = async () => {
+      await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = '/';
+        },
+      },
+    });
+  }
 </script>
 
 <div class="min-h-screen bg-gray-100 p-6">
   <!-- Header -->
   <h1 class="text-3xl font-bold">Hello {userName}</h1>
+  <button
+  on:click={handleLogout}
+  class="bg-red-600 hover:bg-opacity-80 text-white rounded-lg px-4 py-2 duration-200"
+  >Log out</button
+  >
   <hr>
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">Order Dashboard</h1>
+    <h1 class="text-3xl font-bold">Buyer Order Dashboard</h1>
     <a
       href="buyer/create"
       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition"
