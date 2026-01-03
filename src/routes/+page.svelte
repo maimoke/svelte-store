@@ -6,6 +6,10 @@
   const goBuyer = () => {
     window.location.href = '/login/buyer';
   };
+
+  const goBuyerRegister = () => {
+    window.location.href = '/register';
+  };
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -28,6 +32,14 @@
         class="w-full py-3 rounded-xl bg-green-600 text-white text-lg font-semibold hover:bg-green-500 transition"
       >
         Login as Buyer
+      </button>
+ 
+      <!-- Buyer Register-->
+      <button
+        on:click={goBuyerRegister}
+        class="w-full py-3 rounded-xl bg-green-600 text-white text-lg font-semibold hover:bg-green-500 transition"
+      >
+        Register as Buyer
       </button>
     </div>
   </div>

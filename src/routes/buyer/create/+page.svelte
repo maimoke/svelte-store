@@ -1,10 +1,13 @@
 <script>
- import { addDoc, collection } from 'firebase/firestore';
- import { db } from '../../../firebase';
+  import { addDoc, collection } from 'firebase/firestore';
+  import { db } from '../../../firebase';
+  import { onMount } from 'svelte';
+  import { authClient } from "$lib/auth-client";
 let description = '';
 let buyerid = 'buyerID'; //buyerID from auth
 let status = 'pending';
-
+let userName = 'Guest';
+let email = 'GuestEmail'
 const STATUS_OPTIONS = [
 { value: 'pending', label: 'Pending' },
 { value: 'processing', label: 'Processing' },
@@ -14,13 +17,22 @@ const STATUS_OPTIONS = [
   const col = collection(db, 'order');
   await addDoc(col, {
    description,
-   buyerid,
+   userName,
+   email,
    status,
   });
   description = '';
   alert('Order added successfully!');
   window.location.href = '/buyer';
  };
+
+  onMount(async () => {
+    const { data: session } = await authClient.getSession()
+      if (session?.user) {
+    userName = session.user.name;
+    email = session.user.email;
+  }
+  });
 </script>
 
 <div class="container mx-auto mt-8 max-w-[560px]">

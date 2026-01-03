@@ -72,7 +72,7 @@
   />
 
   <button disabled={loading}>
-    {loading ? "Creating account..." : "Sign Up"}
+    {loading ? "Creating account..." : "Register"}
   </button>
 </form>
 

@@ -50,7 +50,7 @@
   />
 
   <button disabled={loading}>
-    {loading ? "Signing in..." : "Sign In"}
+    {loading ? "Loging in..." : "Log in"}
   </button>
 </form>
 

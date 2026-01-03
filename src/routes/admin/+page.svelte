@@ -58,7 +58,8 @@
     <table class="w-full text-left">
       <thead class="bg-gray-50 border-b">
         <tr>
-          <th class="px-4 py-3">Buyer ID</th>
+          <th class="px-4 py-3">Buyer Name</th>
+          <th class="px-4 py-3">Buyer Email</th>
           <th class="px-4 py-3">Description</th>
           <th class="px-4 py-3">Status</th>
           <th class="px-4 py-3 text-right">Actions</th>
@@ -67,7 +68,8 @@
       <tbody>
         {#each orders as order}
           <tr class="border-b hover:bg-gray-50">
-            <td class="px-4 py-3">{order.buyerid}</td>
+            <td class="px-4 py-3">{order.userName}</td>
+            <td class="px-4 py-3">{order.email}</td>
             <td class="px-4 py-3 text-gray-600">{order.description}</td>
             <td class="px-4 py-3">
               <span

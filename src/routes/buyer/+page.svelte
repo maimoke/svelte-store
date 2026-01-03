@@ -1,19 +1,29 @@
 <script>
-  import { collection, getDocs } from 'firebase/firestore';
+  import { collection, getDocs, query, where } from 'firebase/firestore';
   import { db } from '../../firebase';
   import { onMount } from 'svelte';
   import { authClient } from "$lib/auth-client";
-//   const session = authClient.useSession();
 
 
   let orders = [];
   let totalOrders = 0;
   let completedOrders = 0;
   let pendingOrders = 0;
-
+  let userName = 'Guest';
+  let email = 'GuestEmail'
   onMount(async () => {
-    const ref = collection(db, 'order');
-    const snapshot = await getDocs(ref);
+
+    const { data: session } = await authClient.getSession()
+        if (session?.user) {
+      userName = session.user.name;
+      email = session.user.email
+    }
+    const ordersRef = collection(db, 'order');
+    const q = query(ordersRef, where('email', '==', email));
+    const snapshot = await getDocs(q);
+    
+    console.log(userName)
+    console.log(email)
 
     orders = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -23,13 +33,15 @@
     totalOrders = orders.length;
     completedOrders = orders.filter(o => o.status === 'completed').length;
     pendingOrders = orders.filter(o => o.status !== 'completed').length;
+    
+    
   });
 </script>
 
 <div class="min-h-screen bg-gray-100 p-6">
   <!-- Header -->
-  <!-- <h1 class="text-3xl font-bold">Hello $session.user.email</h1>
-  <hr> -->
+  <h1 class="text-3xl font-bold">Hello {userName}</h1>
+  <hr>
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold">Order Dashboard</h1>
     <a

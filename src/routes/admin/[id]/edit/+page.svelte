@@ -3,9 +3,12 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { db } from '../../../../firebase';
+  import { username } from 'better-auth/plugins';
 
   let description = '';
   let buyerid = '';
+  let userName = '';
+  let email = '';
   let status = 'pending';
 
   const { id } = $page.params;
@@ -23,7 +26,8 @@
     if (snapshot.exists()) {
       const data = snapshot.data();
       description = data.description;
-      buyerid = data.buyerid;
+      userName = data.userName;
+      email = data.email;
       status = data.status ?? 'pending';
     }
   });
@@ -33,7 +37,8 @@
       const ref = doc(db, 'order', id);
       await updateDoc(ref, {
         description,
-        buyerid,
+        userName,
+        email,
         status
       });
 
@@ -59,10 +64,19 @@
   </div>
 
   <div class="mb-4">
-    <p>Buyer ID</p>
+    <p>Buyer Name</p>
     <input
-      bind:value={buyerid}
-      placeholder="Buyer ID"
+      bind:value={userName}
+      placeholder="Buyer Name"
+      class="mt-1 px-4 py-2 border border-gray-300 rounded-md block w-full"
+    />
+  </div>
+
+  <div class="mb-4">
+    <p>Buyer Email</p>
+    <input
+      bind:value={email}
+      placeholder="Buyer email"
       class="mt-1 px-4 py-2 border border-gray-300 rounded-md block w-full"
     />
   </div>

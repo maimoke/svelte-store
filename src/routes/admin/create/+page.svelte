@@ -1,8 +1,10 @@
 <script>
  import { addDoc, collection } from 'firebase/firestore';
  import { db } from '../../../firebase';
+  import { username } from 'better-auth/plugins';
 let description = '';
-let buyerid = '';
+let userName = '';
+let email = '';
 let status = 'pending';
 
 const STATUS_OPTIONS = [
@@ -14,11 +16,13 @@ const STATUS_OPTIONS = [
   const col = collection(db, 'order');
   await addDoc(col, {
    description,
-   buyerid,
+   userName,
+   email,
    status,
   });
   description = '';
-  buyerid = '';
+  userName = '';
+  email = '';
   status = 'pending'
   alert('Order added successfully!');
   window.location.href = '/admin';
@@ -40,10 +44,19 @@ const STATUS_OPTIONS = [
   </div>
 
   <div class="mb-4">
-    <p>Buyer ID</p>
+    <p>Buyer Name</p>
     <input
-      bind:value={buyerid}
-      placeholder="Buyer ID"
+      bind:value={userName}
+      placeholder="Buyer Name"
+      class="mt-1 px-4 py-2 border border-gray-300 rounded-md block w-full"
+    />
+  </div>
+
+  <div class="mb-4">
+    <p>Buyer Email</p>
+    <input
+      bind:value={email}
+      placeholder="Buyer email"
       class="mt-1 px-4 py-2 border border-gray-300 rounded-md block w-full"
     />
   </div>
