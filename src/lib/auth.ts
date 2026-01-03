@@ -1,12 +1,15 @@
+import "dotenv/config"
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { getRequestEvent } from "$app/server";
 import { admin } from "better-auth/plugins"
+
 export const auth = betterAuth({
+
     database: new Pool({
         // connection options
-         connectionString: "postgres://postgres:example@localhost:5432/postgres",
+         connectionString: process.env.DB_CONNECTION as string,
     }),
     emailAndPassword: { 
     enabled: true, 
