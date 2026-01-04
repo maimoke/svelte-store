@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/client";
 import { adminClient } from "better-auth/client/plugins";
 export const authClient = createAuthClient({
-  	baseURL: "http://localhost:5173",
+  	baseURL: import.meta.env.VITE_BETTER_AUTH_BASEURL,
 	plugins: [adminClient()],
 });
 export const { signIn, signUp, useSession } = authClient;
