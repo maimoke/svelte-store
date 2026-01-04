@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { authClient } from '$lib/auth-client';
-
+  import { goto } from '$app/navigation';
   interface User {
     id: string;
     name: string;
@@ -20,8 +20,11 @@
         query: {}
       });
 
-      if (errordata) throw new Error(errordata.message || 'Unknown error');
-
+      if (errordata) {
+        alert("Please Login again")
+        goto("/");
+        throw new Error(errordata.message || 'Unknown error');
+        }
       users = usersdata?.users || [];
       totalUsers = users.length;
     } catch (e: any) {
