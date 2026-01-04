@@ -3,6 +3,7 @@
   import { db } from '../../../firebase';
   import { onMount } from 'svelte';
   import { authClient } from "$lib/auth-client";
+  import { goto } from '$app/navigation';
 let description = '';
 let buyerid = 'buyerID'; //buyerID from auth
 let status = 'pending';
@@ -23,7 +24,7 @@ const STATUS_OPTIONS = [
   });
   description = '';
   alert('Order added successfully!');
-  window.location.href = '/buyer';
+  goto('/buyer');
  };
 
   onMount(async () => {
@@ -33,6 +34,15 @@ const STATUS_OPTIONS = [
     email = session.user.email;
   }
   });
+      const handleLogout = async () => {
+      await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          goto('/');
+        },
+      },
+    });
+  }
 </script>
 
 <div class="container mx-auto mt-8 max-w-[560px]">

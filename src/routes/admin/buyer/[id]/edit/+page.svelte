@@ -3,6 +3,7 @@
   import { get } from "svelte/store";
   import { onMount } from "svelte";
   import { authClient } from "$lib/auth-client";
+  import { goto } from "$app/navigation";
 
   let user = { id: "", name: "", email: "", role: "user" };
   let error = "";
@@ -56,7 +57,7 @@
         throw new Error(updateError.message || "Failed to update user");
 
       success = `User ${data.name} updated successfully!`;
-      window.location.href = '/admin/buyer';
+      goto('/admin/buyer');
     } catch (e: any) {
       console.error(e);
       error = e.message || "Unknown error";

@@ -3,6 +3,7 @@
  import { page } from '$app/stores';
  import { onMount } from 'svelte';
  import { db } from '../../../../firebase';
+  import { goto } from '$app/navigation';
 
  let task = {};
 
@@ -19,7 +20,7 @@
   deleteDoc(ref)
    .then(() => {
     alert('Item deleted successfully!');
-    window.location.href = '/admin';
+    goto('/admin');
    })
    .catch((error) => {
     console.log(error);

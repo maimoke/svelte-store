@@ -2,6 +2,7 @@
  import { addDoc, collection } from 'firebase/firestore';
  import { db } from '../../../firebase';
   import { username } from 'better-auth/plugins';
+  import { goto } from '$app/navigation';
 let description = '';
 let userName = '';
 let email = '';
@@ -25,7 +26,7 @@ const STATUS_OPTIONS = [
   email = '';
   status = 'pending'
   alert('Order added successfully!');
-  window.location.href = '/admin';
+  goto('/admin');
  };
 </script>
 

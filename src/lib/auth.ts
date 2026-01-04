@@ -29,5 +29,6 @@ export const auth = betterAuth({
             }
         }
     },
+    secret: process.env.BETTER_AUTH_SECRET as string,
     plugins: [admin(),sveltekitCookies(getRequestEvent)],
 })

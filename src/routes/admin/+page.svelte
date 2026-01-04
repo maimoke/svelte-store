@@ -3,6 +3,7 @@
   import { db } from '../../firebase';
   import { onMount } from 'svelte';
   import { authClient } from '$lib/auth-client';
+  import { goto } from "$app/navigation";
 
   let orders = [];
   let totalOrders = 0;
@@ -20,13 +21,13 @@
       userName = session.user.name;
       email = session.user.email
       role = session.user.role
+      if (role !== 'admin'){
+      alert("This user do not have permission as admin")
+      goto("/");
+    }
     }else{
       alert("Please Login again")
-      window.location.href = '/';
-    }
-    if (role !== 'admin'){
-      alert("This user do not have permission as admin")
-      window.location.href = '/';
+      goto("/");
     }
     orders = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -41,7 +42,7 @@
       await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          window.location.href = '/';
+          goto('/');
         },
       },
     });

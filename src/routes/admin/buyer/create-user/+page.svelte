@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { authClient } from '$lib/auth-client';
+  import { goto } from '$app/navigation';
 
   let name = '';
   let email = '';
@@ -40,7 +41,7 @@
       email = '';
       password = '';
       role = 'user';
-      window.location.href = '/admin/buyer';
+      goto('/admin/buyer');
     } catch (e: any) {
       console.error(e);
       error = e.message || 'Failed to create user';

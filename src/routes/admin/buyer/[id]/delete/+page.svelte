@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
   import { authClient } from '$lib/auth-client';
+  import { goto } from '$app/navigation';
 
   let user = { name: '', email: '' };
   const id = get(page).params.id;
@@ -31,7 +32,7 @@
         const { data: deletedUser, error } = await authClient.admin.removeUser({
         userId: id, 
         });
-      window.location.href = '/admin/buyer';
+      goto('/admin/buyer');
     } catch (e: any) {
       console.error(e);
       error = e.message;

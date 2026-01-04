@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import { db } from '../../../../firebase';
   import { username } from 'better-auth/plugins';
+  import { goto } from '$app/navigation';
 
   let description = '';
   let buyerid = '';
@@ -43,7 +44,7 @@
       });
 
       alert('Item updated successfully!');
-      window.location.href = '/admin';
+      goto('/admin')
     } catch (error) {
       console.error(error);
     }

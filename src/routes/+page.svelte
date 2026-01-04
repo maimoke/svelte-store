@@ -1,14 +1,15 @@
 <script>
+  import { goto } from "$app/navigation";
   const goAdmin = () => {
-    window.location.href = '/login/admin';
+    goto('/login/admin')
   };
 
   const goBuyer = () => {
-    window.location.href = '/login/buyer';
+    goto('/login/buyer');
   };
 
   const goBuyerRegister = () => {
-    window.location.href = '/register';
+    goto('/register');
   };
 </script>
 

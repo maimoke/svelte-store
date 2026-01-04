@@ -3,7 +3,7 @@
   import { db } from '../../firebase';
   import { onMount } from 'svelte';
   import { authClient } from "$lib/auth-client";
-
+  import { goto } from '$app/navigation';
 
   let orders = [];
   let totalOrders = 0;
@@ -19,7 +19,7 @@
       email = session.user.email
     }else{
       alert("Please Login again")
-      window.location.href = '/';
+      goto('/');
     }
     const ordersRef = collection(db, 'order');
     const q = query(ordersRef, where('email', '==', email));
@@ -43,7 +43,7 @@
       await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          window.location.href = '/';
+          goto('/');
         },
       },
     });
